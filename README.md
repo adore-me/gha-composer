@@ -1,1 +1,1 @@
-# composer-action
+# gha-composer

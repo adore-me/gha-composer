@@ -1,0 +1,33 @@
+name: 'AdoreMe Tech Composer Action'
+description: 'Run the composer config and install commands'
+inputs:
+  php-image-tag:
+    description: 'The PHP image to use. Takes precedence over the PHP_IMAGE_TAG environment variable.'
+    required: false
+    default: ''
+  composer-cache-dir:
+    description: 'Composer cache directory'
+    required: true
+    default: '/.composer/cache'
+  composer-home:
+    description: 'Composer home directory'
+    required: true
+    default: '/.composer/'
+  no-dev:
+    description: 'Do not install dev dependencies'
+    required: false
+    default: 'false'
+  gh-oauth-token:
+    description: 'Github token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/composer.sh
+      shell: bash
+      env:
+        INPUT_PHP_IMAGE_TAG: ${{ inputs.php-image-tag }}
+        INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
+        INPUT_COMPOSER_HOME: ${{ inputs.composer-home }}
+        INPUT_NO_DEV: ${{ inputs.no-dev }}
+        INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
