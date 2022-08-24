@@ -21,7 +21,7 @@ inputs:
     description: 'Github token'
     required: true
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - run: $GITHUB_ACTION_PATH/composer.sh
       shell: bash
