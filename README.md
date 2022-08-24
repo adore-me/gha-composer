@@ -4,13 +4,13 @@
 Run composer install with custom PHP image.
 
 ## Inputs 
-Key              | Description
----------------- | -------------
-**php-image-tag** | PHP image tag to use. Takes precedence over the PHP_IMAGE_TAG environment variable.
-**composer-cache-dir** | Composer cache directory.
-**composer-home** | Composer home directory.
-**no-dev** | Install/or not dev dependencies.
-**gh-oauth-token** | GitHub token for pulling private dependencies.
+| Key                    | Default            | Description                                                                         |
+|------------------------|--------------------|-------------------------------------------------------------------------------------|
+| **php-image-tag**      | `''`               | PHP image tag to use. Takes precedence over the PHP_IMAGE_TAG environment variable. |
+| **composer-cache-dir** | `/.composer/cache` | Composer cache directory.                                                           |
+| **composer-home**      | `/.composer/`      | Composer home directory.                                                            |
+| **no-dev**             | `false`            | Install/or not dev dependencies.                                                    |
+| **gh-oauth-token**     |                    | GitHub token for pulling private dependencies.                                      |
 
 ## Outputs
 None.
