@@ -7,7 +7,21 @@ YL='\033[0;33m'
 BL='\033[0;34m'
 NC='\033[0m'
 
-IMAGE="quay.io/adoreme/nginx-fpm-alpine:$INPUT_PHP_IMAGE_TAG"
+IMAGE_TAG=""
+if [ -n "$PHP_IMAGE_TAG" ]; then
+  IMAGE_TAG="$PHP_IMAGE_TAG"
+fi
+
+if [ -n "$INPUT_PHP_IMAGE_TAG" ]; then
+  IMAGE_TAG="$INPUT_PHP_IMAGE_TAG"
+fi
+
+if [ -z "$IMAGE_TAG" ]; then
+  echo -e "${RD}ERROR:${NC} No PHP image tag provided"
+  exit 1
+fi
+
+IMAGE="quay.io/adoreme/nginx-fpm-alpine:$IMAGE_TAG"
 
 COMPOSER_COMMAND="composer install"
 if [[ $INPUT_NO_DEV == "true" ]]; then
