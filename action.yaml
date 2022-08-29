@@ -23,7 +23,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: $GITHUB_ACTION_PATH/composer.sh
+    - name: 'Run Composer Install'
+      run: $GITHUB_ACTION_PATH/composer.sh
       shell: bash
       env:
         INPUT_PHP_IMAGE_TAG: ${{ inputs.php-image-tag }}
