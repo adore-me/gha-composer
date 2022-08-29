@@ -17,7 +17,7 @@ if [ -n "$INPUT_PHP_IMAGE_TAG" ]; then
 fi
 
 if [ -z "$IMAGE_TAG" ]; then
-  echo -e "${RD}ERROR:${NC} No PHP image tag provided"
+  echo "::error::No PHP image tag provided"
   exit 1
 fi
 
@@ -28,14 +28,14 @@ if [[ $INPUT_NO_DEV == "true" ]]; then
   COMPOSER_COMMAND=$COMPOSER_COMMAND" --no-dev"
 fi
 
-echo -e "${BL}INFO:${NC} Running composer with image: ${GR}nginx-fpm-alpine:$IMAGE${NC}"
+echo -e "${BL}Info:${NC} Running composer with image: ${GR}nginx-fpm-alpine:$IMAGE${NC}"
 docker run \
   --platform linux/amd64 \
   -v "$PWD":/var/www \
   -e COMPOSER_HOME="$INPUT_COMPOSER_HOME" \
   -e COMPOSER_CACHE_DIR="$INPUT_COMPOSER_CACHE_DIR" \
   "$IMAGE" \
-  /bin/bash -c "echo -e '${BL}INFO:${NC} Configure composer' \
+  "/bin/bash" "-c" "echo -e '${BL}INFO:${NC} Configure composer' \
     && composer config --global github-oauth.github.com $INPUT_GH_OAUTH_TOKEN \
     && composer config repo.packagist composer https://packagist.org \
     && echo -e '${BL}INFO:${NC} Install composer dependencies' \

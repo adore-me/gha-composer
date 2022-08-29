@@ -21,6 +21,6 @@ steps:
   - name: 'Run Composer Install'
     uses: adore-me/composer-action@master
     with:
-      php-image-tag: ${{ env.PHP_IMAGE_TAG }}
+      php-image-tag: SOME_IMAGE_TAG # Not needed if `env.PHP_IMAGE_TAG` is set.
       gh-oauth-token: ${{ secrets.GH_PRIVATE_ACTIONS_TOKEN }}
 ```
