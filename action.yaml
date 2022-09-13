@@ -1,34 +1,47 @@
 name: 'AdoreMe Tech Composer Action'
-description: 'Run the composer config and install commands'
+description: 'Run the composer config and install commands with caching of libs.'
 inputs:
-  php-image-tag:
-    description: 'The PHP image to use. Takes precedence over the PHP_IMAGE_TAG environment variable.'
-    required: false
-    default: ''
+  php-image:
+    description: 'The PHP image to use'
+    required: true
   composer-cache-dir:
     description: 'Composer cache directory'
     required: true
     default: '/.composer/cache'
+  composer-host-cache-dir:
+    description: 'Composer host cache directory'
+    required: true
+    default: '/home/runner/.composer/cache'
   composer-home:
     description: 'Composer home directory'
     required: true
     default: '/.composer/'
-  no-dev:
+  composer-no-dev:
     description: 'Do not install dev dependencies'
-    required: false
+    required: true
     default: 'false'
   gh-oauth-token:
     description: 'Github token'
-    required: true
+    required: false
 runs:
   using: 'composite'
   steps:
+    - name: 'Create cache dir'
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.composer-host-cache-dir }}
+    - name: 'Composer cache'
+      uses: actions/cache@v3
+      with:
+        path: ${{ inputs.composer-host-cache-dir }}
+        key: composer-cache-${{ hashFiles('composer.lock') }}
     - name: 'Run Composer Install'
       run: $GITHUB_ACTION_PATH/composer.sh
       shell: bash
       env:
-        INPUT_PHP_IMAGE_TAG: ${{ inputs.php-image-tag }}
-        INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
+        INPUT_PHP_IMAGE: ${{ inputs.php-image }}
         INPUT_COMPOSER_HOME: ${{ inputs.composer-home }}
-        INPUT_NO_DEV: ${{ inputs.no-dev }}
+        INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
+        INPUT_COMPOSER_HOST_CACHE_DIR: ${{ inputs.composer-host-cache-dir }}
+        INPUT_COMPOSER_NO_DEV: ${{ inputs.composer-no-dev }}
         INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
