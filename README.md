@@ -4,14 +4,14 @@
 Run composer install with custom PHP image.
 
 ## Inputs 
-| Key                         | Required  | Default                           | Description                                           |
-|-----------------------------|-----------|-----------------------------------|-------------------------------------------------------|
-| **php-image**               | **true**  | `''`                              | PHP image to use.                                     |
-| **composer-cache-dir**      | **true**  | `/.composer/cache`                | Composer cache directory.                             |
-| **composer-host-cache-dir** | **true**  | `/home/runner/.composer/cache`    | Composer host cache directory.                        |
-| **composer-home**           | **true**  | `/.composer/`                     | Composer home directory.                              |
-| **composer-no-dev**         | **true**  | `false`                           | Install/or not dev dependencies.                      |
-| **gh-oauth-token**          | **false** | `''`                              | GitHub token for pulling private GitHub dependencies. |
+| Key                         | Required  | Default                           | Description                                                                                    |
+|-----------------------------|-----------|-----------------------------------|------------------------------------------------------------------------------------------------|
+| **php-image**               | **true**  | `''`                              | PHP image to use (fully qualified image address. ex: quay.io/adoreme/nginx-fpm-alpine:v0.0.1). |
+| **composer-cache-dir**      | **true**  | `/.composer/cache`                | Composer cache directory.                                                                      |
+| **composer-host-cache-dir** | **true**  | `/home/runner/.composer/cache`    | Composer host cache directory.                                                                 |
+| **composer-home**           | **true**  | `/.composer/`                     | Composer home directory.                                                                       |
+| **composer-no-dev**         | **true**  | `false`                           | Install/or not dev dependencies.                                                               |
+| **gh-oauth-token**          | **false** | `''`                              | GitHub token for pulling private GitHub dependencies.                                          |
 
 ## Outputs
 None.
