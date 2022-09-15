@@ -35,6 +35,8 @@ runs:
       with:
         path: ${{ inputs.composer-host-cache-dir }}
         key: composer-cache-${{ hashFiles('composer.lock') }}
+        restore-keys: |
+          composer-cache-${{ hashFiles('composer.lock') }}
     - name: 'Run Composer Install'
       run: $GITHUB_ACTION_PATH/composer.sh
       shell: bash
