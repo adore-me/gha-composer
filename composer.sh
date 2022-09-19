@@ -16,13 +16,13 @@ echo -e "${BL}Info:${NC} Configuring composer..."
 docker exec php-container bash -c "composer config --global github-oauth.github.com $INPUT_GH_OAUTH_TOKEN \
     && composer config repo.packagist composer https://packagist.org"
 
-composerError=false
 echo -e "${BL}Info:${NC} Checking for lock file..."
 if [ ! -f "composer.lock" ]; then
   errorMessage="composer.lock file not found! Please commit your composer.lock file to your repository."
   echo "::error::$errorMessage"
   echo "::set-output name=composer-error-message::$errorMessage"
-  composerError=true
+  echo "::set-output name=composer-error::true"
+  exit 1
 else
   echo -e "${BL}Info:${NC} Lock file found! All good..."
 fi
@@ -35,12 +35,10 @@ if [ "$COMPOSER_CHECK_EXIT_CODE" != "0" ]; then
   errorMessage="Composer validation has errors... Check Composer Install logs for more info.%0A$encodedOutput"
   echo "::error::$errorMessage"
   echo "::set-output name=composer-error-message::$errorMessage"
-  composerError=true
-fi
-
-if [ "$composerError" = true ]; then
   echo "::set-output name=composer-error::true"
   exit 1
+else
+  echo -e "${BL}Info:${NC} composer validate passed..."
 fi
 
 echo "::set-output name=composer-error::false"
