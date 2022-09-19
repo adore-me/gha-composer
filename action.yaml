@@ -37,13 +37,44 @@ runs:
         key: composer-cache-${{ hashFiles('composer.lock') }}
         restore-keys: |
           composer-cache-${{ hashFiles('composer.lock') }}
+    - name: 'Start Container'
+      run: $GITHUB_ACTION_PATH/start-container.sh
+      shell: bash
+      env:
+        INPUT_DOCKER_IMAGE: ${{ inputs.php-image }}
     - name: 'Run Composer Install'
+      id: composer-install
       run: $GITHUB_ACTION_PATH/composer.sh
       shell: bash
       env:
-        INPUT_PHP_IMAGE: ${{ inputs.php-image }}
         INPUT_COMPOSER_HOME: ${{ inputs.composer-home }}
         INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
         INPUT_COMPOSER_HOST_CACHE_DIR: ${{ inputs.composer-host-cache-dir }}
         INPUT_COMPOSER_NO_DEV: ${{ inputs.composer-no-dev }}
         INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
+    - name: 'Notify commiter'
+      if: always()
+      uses: actions/github-script@v6.2.0
+      with:
+          github-token: ${{ inputs.gh-oauth-token }}
+          script: |
+            if (${{ steps.composer-install.outputs.composer-error }} == true) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `@${{ github.event.pull_request.user.login }}<br />⚠ Composer has errors.<br /><details><summary>Details</summary>${{ steps.composer-install.outputs.composer-error-message }}</details>`
+              })
+              github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['composer-check-error']
+              })
+            }
+    - name: 'Stop Container'
+      if: always()
+      shell: bash
+      run: |
+        docker stop php-container -t 0 || true
+        docker rm php-container || true
