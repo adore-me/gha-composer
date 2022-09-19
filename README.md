@@ -17,6 +17,9 @@ Run composer install with custom PHP image.
 None.
 
 ## Notes
+ℹ This action also checks for `composer.lock` and doas a `composer validate` before running `composer install`.  
+Failing these checks will result in a failed action.
+
 **FYI**: in order to speed up the build, we create a GitHub actions cache with the following key: `composer-cache-${{ hashFiles('composer.lock') }}`.  
 This means that each time a build for the same `composer.lock` happens, the data will be restored and used from cache.
 
