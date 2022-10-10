@@ -41,7 +41,7 @@ runs:
       run: $GITHUB_ACTION_PATH/start-container.sh
       shell: bash
       env:
-        INPUT_DOCKER_IMAGE: ${{ inputs.php-image }}
+        INPUT_PHP_IMAGE: ${{ inputs.php-image }}
     - name: 'Run Composer Install'
       id: composer-install
       run: $GITHUB_ACTION_PATH/composer.sh
