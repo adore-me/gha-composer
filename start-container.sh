@@ -7,8 +7,6 @@ YL='\033[0;33m'
 BL='\033[0;34m'
 NC='\033[0m'
 
-INPUT_PHP_IMAGE="quay.io/adoreme/nginx-fpm-alpine:php-7.4.3-c2-v1.1.1"
-
 if [ -z "$INPUT_PHP_IMAGE" ]; then
   echo "::error::No PHP image provided"
   exit 1
