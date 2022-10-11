@@ -13,8 +13,7 @@ if [[ $INPUT_COMPOSER_NO_DEV == "true" ]]; then
 fi
 
 echo -e "${BL}Info:${NC} Configuring composer..."
-docker exec php-container bash -c "composer config --global github-oauth.github.com $INPUT_GH_OAUTH_TOKEN \
-    && composer config repo.packagist composer https://packagist.org"
+docker exec php-container bash -c "composer config --global github-oauth.github.com $INPUT_GH_OAUTH_TOKEN"
 
 echo -e "${BL}Info:${NC} Checking for lock file..."
 if [ ! -f "composer.lock" ]; then
