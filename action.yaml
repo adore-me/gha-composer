@@ -56,7 +56,6 @@ runs:
       if: always()
       uses: actions/github-script@v6.2.0
       with:
-          github-token: ${{ inputs.gh-oauth-token }}
           script: |
             if (${{ steps.composer-install.outputs.composer-error }} == true) {
               github.rest.issues.createComment({
