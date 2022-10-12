@@ -26,9 +26,17 @@ This means that each time a build for the same `composer.lock` happens, the data
 ### Example of step configuration and usage:
 ```yaml
 steps:
+  # Needed if PHP/Composer image is in a private registry
+  - name: Login quay
+    uses: docker/login-action@v1
+    with:
+      registry: quay.io
+      password: ${{ secrets.GHA_QUAY_ROBOT_PASSWORD }}
+      username: ${{ secrets.GHA_QUAY_ROBOT_USERNAME }}
+
   - name: 'Run Composer Install'
     uses: adore-me/composer-action@master
     with:
-      php-image-tag: SOME_IMAGE_TAG
+      php-image: SOME_IMAGE
       gh-oauth-token: ${{ secrets.GH_PRIVATE_ACTIONS_TOKEN }}
 ```
