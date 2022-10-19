@@ -39,6 +39,6 @@ steps:
   - name: 'Run Composer Install'
     uses: adore-me/composer-action@master
     with:
-      php-image: SOME_IMAGE # pr `PROJECT_IMAGE` env var set
+      php-image: SOME_IMAGE # or `PROJECT_IMAGE` env var set
       gh-oauth-token: ${{ secrets.GH_PRIVATE_ACTIONS_TOKEN }}
 ```
