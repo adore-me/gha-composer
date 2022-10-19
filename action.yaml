@@ -3,7 +3,7 @@ description: 'Run the composer config and install commands with caching of libs.
 inputs:
   php-image:
     description: 'The PHP image to use'
-    required: true
+    required: false
   composer-cache-dir:
     description: 'Composer cache directory'
     required: true
