@@ -14,7 +14,7 @@ if [ -n "$PROJECT_IMAGE" ]; then
 fi
 
 if [ -n "$INPUT_PHP_IMAGE" ]; then
-  echo -e "${BL}Info:${NC} Project image found in input. Using ${GR}$PROJECT_IMAGE${NC}"
+  echo -e "${BL}Info:${NC} Project image found in input. Using ${GR}$INPUT_PHP_IMAGE${NC}"
   ACTION_IMAGE="$INPUT_PHP_IMAGE"
 fi
 
