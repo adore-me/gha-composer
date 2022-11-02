@@ -19,8 +19,8 @@ echo -e "${BL}Info:${NC} Checking for lock file..."
 if [ ! -f "composer.lock" ]; then
   errorMessage="composer.lock file not found! Please commit your composer.lock file to your repository."
   echo "::error::$errorMessage"
-  echo "::set-output name=composer-error-message::$errorMessage"
-  echo "::set-output name=composer-error::true"
+  echo "composer-error-message=$errorMessage" >> "$GITHUB_OUTPUT"
+  echo "composer-error=true" >> "$GITHUB_OUTPUT"
   exit 1
 else
   echo -e "${BL}Info:${NC} Lock file found! All good..."
@@ -33,14 +33,14 @@ if [ "$COMPOSER_CHECK_EXIT_CODE" != "0" ]; then
   encodedOutput=$(python3 -c "content='''$validateOutput''';print(content.replace(\"\r\", \"%0A\").replace(\"\n\", \"%0A\").replace(\"'\", \"\").replace(\"\\\"\", \"\").replace(\"\`\", \"\"))")
   errorMessage="Composer validation has errors... Check Composer Install logs for more info.%0A$encodedOutput"
   echo "::error::$errorMessage"
-  echo "::set-output name=composer-error-message::$errorMessage"
-  echo "::set-output name=composer-error::true"
+  echo "composer-error-message=$errorMessage" >> "$GITHUB_OUTPUT"
+  echo "composer-error=true" >> "$GITHUB_OUTPUT"
   exit 1
 else
   echo -e "${BL}Info:${NC} composer validate passed..."
 fi
 
-echo "::set-output name=composer-error::false"
+echo "composer-error=false" >> "$GITHUB_OUTPUT"
 
 echo -e "${BL}Info:${NC} Running composer install.."
 docker exec php-container bash -c "$COMPOSER_COMMAND"
