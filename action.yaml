@@ -54,7 +54,7 @@ runs:
         INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
     - name: 'Notify commiter'
       if: always()
-      uses: actions/github-script@v6.2.0
+      uses: actions/github-script@v6.3.3
       with:
           script: |
             if (${{ steps.composer-install.outputs.composer-error }} == true) {
