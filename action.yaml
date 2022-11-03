@@ -31,7 +31,7 @@ runs:
       run: |
         mkdir -p ${{ inputs.composer-host-cache-dir }}
     - name: 'Composer cache'
-      uses: actions/cache@v3
+      uses: actions/cache@v3.0.11
       with:
         path: ${{ inputs.composer-host-cache-dir }}
         key: composer-cache-${{ hashFiles('composer.lock') }}
