@@ -16,6 +16,10 @@ inputs:
     description: 'Composer home directory'
     required: true
     default: '/.composer/'
+  cache:
+    description: 'Cache composer libs'
+    required: false
+    default: 'false'
   composer-no-dev:
     description: 'Do not install dev dependencies'
     required: true
@@ -31,6 +35,7 @@ runs:
       run: |
         mkdir -p ${{ inputs.composer-host-cache-dir }}
     - name: 'Composer cache'
+      if: ${{ inputs.cache == 'true' }}
       uses: actions/cache@v3.0.11
       with:
         path: ${{ inputs.composer-host-cache-dir }}
