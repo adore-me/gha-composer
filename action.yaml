@@ -42,14 +42,14 @@ runs:
       shell: bash
       env:
         INPUT_PHP_IMAGE: ${{ inputs.php-image }}
+        INPUT_COMPOSER_HOME: ${{ inputs.composer-home }}
+        INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
+        INPUT_COMPOSER_HOST_CACHE_DIR: ${{ inputs.composer-host-cache-dir }}
     - name: 'Run Composer Install'
       id: composer-install
       run: $GITHUB_ACTION_PATH/composer.sh
       shell: bash
       env:
-        INPUT_COMPOSER_HOME: ${{ inputs.composer-home }}
-        INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
-        INPUT_COMPOSER_HOST_CACHE_DIR: ${{ inputs.composer-host-cache-dir }}
         INPUT_COMPOSER_NO_DEV: ${{ inputs.composer-no-dev }}
         INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
     - name: 'Notify commiter'
