@@ -16,7 +16,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: 'Create release'
-        uses: rymndhng/release-on-push-action@v0.24.0
+        uses: rymndhng/release-on-push-action@v0.27.0
         with:
           use_github_release_notes: true
           bump_version_scheme: patch
