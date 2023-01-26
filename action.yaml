@@ -27,6 +27,14 @@ inputs:
   gh-oauth-token:
     description: 'Github token'
     required: false
+  composer-self-update:
+    description: 'Run composer self-update'
+    required: false
+    default: 'false'
+  composer-self-update-version:
+    description: 'Composer self-update version'
+    required: false
+    default: ''
 runs:
   using: 'composite'
   steps:
