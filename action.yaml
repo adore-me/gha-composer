@@ -27,6 +27,14 @@ inputs:
   gh-oauth-token:
     description: 'Github token'
     required: false
+  composer-self-update:
+    description: 'Run composer self-update'
+    required: false
+    default: 'false'
+  composer-self-update-version:
+    description: 'Composer self-update version'
+    required: false
+    default: 'latest'
 runs:
   using: 'composite'
   steps:
@@ -57,6 +65,8 @@ runs:
       env:
         INPUT_COMPOSER_NO_DEV: ${{ inputs.composer-no-dev }}
         INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
+        INPUT_COMPOSER_SELF_UPDATE: ${{ inputs.composer-self-update }}
+        INPUT_COMPOSER_SELF_UPDATE_VERSION: ${{ inputs.composer-self-update-version }}
     - name: 'Notify commiter'
       if: always()
       uses: actions/github-script@v6.3.3
