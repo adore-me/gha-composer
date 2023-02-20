@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gha-composer
+  annotations:
+    github.com/project-slug: adore-me/gha-composer
+    adoreme.com/team: Core
+    adoreme.com/jira-project-key: CORE
+    adoreme.com/create-dependabot-alerts-in-jira: "true"
+
+
+spec:
+  type: service
+  owner: Core
+  lifecycle: production
