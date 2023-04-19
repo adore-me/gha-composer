@@ -11,5 +11,5 @@ metadata:
 
 spec:
   type: service
-  owner: Core
+  owner: core-team
   lifecycle: production
