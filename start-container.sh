@@ -29,7 +29,5 @@ docker run \
  --name php-container \
  --platform linux/amd64 \
  -v "$PWD":/var/www \
- -v "$INPUT_COMPOSER_HOST_CACHE_DIR":"$INPUT_COMPOSER_CACHE_DIR" \
  -e COMPOSER_HOME="$INPUT_COMPOSER_HOME" \
- -e COMPOSER_CACHE_DIR="$INPUT_COMPOSER_CACHE_DIR" \
  "$ACTION_IMAGE"

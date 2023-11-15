@@ -4,22 +4,10 @@ inputs:
   php-image:
     description: 'The PHP image to use'
     required: false
-  composer-cache-dir:
-    description: 'Composer cache directory'
-    required: true
-    default: '/.composer/cache'
-  composer-host-cache-dir:
-    description: 'Composer host cache directory'
-    required: true
-    default: '/home/runner/.composer/cache'
   composer-home:
     description: 'Composer home directory'
     required: true
     default: '/.composer/'
-  cache:
-    description: 'Cache composer libs'
-    required: false
-    default: 'false'
   composer-no-dev:
     description: 'Do not install dev dependencies'
     required: true
@@ -38,26 +26,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: 'Create cache dir'
-      shell: bash
-      run: |
-        mkdir -p ${{ inputs.composer-host-cache-dir }}
-    - name: 'Composer cache'
-      if: ${{ inputs.cache == 'true' }}
-      uses: actions/cache@v3.0.11
-      with:
-        path: ${{ inputs.composer-host-cache-dir }}
-        key: composer-cache-${{ hashFiles('composer.lock') }}
-        restore-keys: |
-          composer-cache-${{ hashFiles('composer.lock') }}
     - name: 'Start Container'
       run: $GITHUB_ACTION_PATH/start-container.sh
       shell: bash
       env:
         INPUT_PHP_IMAGE: ${{ inputs.php-image }}
         INPUT_COMPOSER_HOME: ${{ inputs.composer-home }}
-        INPUT_COMPOSER_CACHE_DIR: ${{ inputs.composer-cache-dir }}
-        INPUT_COMPOSER_HOST_CACHE_DIR: ${{ inputs.composer-host-cache-dir }}
     - name: 'Run Composer Install'
       id: composer-install
       run: $GITHUB_ACTION_PATH/composer.sh
