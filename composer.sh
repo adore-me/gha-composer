@@ -1,30 +1,8 @@
 #!/bin/bash
 
 # Colors
-RD='\033[0;31m'
-GR='\033[0;32m'
-YL='\033[0;33m'
 BL='\033[0;34m'
 NC='\033[0m'
-
-if [[ $INPUT_COMPOSER_SELF_UPDATE == "true" ]]; then
-  echo -e "${BL}Info:${NC} Updating composer..."
-  version=""
-  if [[ $INPUT_COMPOSER_SELF_UPDATE_VERSION != "" ]]; then
-    version="$INPUT_COMPOSER_SELF_UPDATE_VERSION"
-  fi
-
-  echo -e "${BL}Info:${NC} running: composer self-update ${version}"
-  docker exec php-container bash -c "composer self-update ${version}"
-fi
-
-COMPOSER_COMMAND="composer install --prefer-dist"
-if [[ $INPUT_COMPOSER_NO_DEV == "true" ]]; then
-  COMPOSER_COMMAND=$COMPOSER_COMMAND" --no-dev"
-fi
-
-echo -e "${BL}Info:${NC} Configuring composer..."
-docker exec php-container bash -c "composer config --global github-oauth.github.com $INPUT_GH_OAUTH_TOKEN"
 
 echo -e "${BL}Info:${NC} Checking for lock file..."
 if [ ! -f "composer.lock" ]; then
@@ -52,7 +30,3 @@ else
 fi
 
 echo "composer-error=false" >> "$GITHUB_OUTPUT"
-
-echo -e "${BL}Info:${NC} Running composer install.."
-echo -e "${BL}Info:${NC} running: $COMPOSER_COMMAND"
-docker exec php-container bash -c "$COMPOSER_COMMAND"
