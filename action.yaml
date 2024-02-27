@@ -30,7 +30,7 @@ inputs:
   check-lock:
     description: 'Check composer.lock file'
     required: false
-    default: 'false'
+    default: 'true'
 runs:
   using: 'composite'
   steps:
