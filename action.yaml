@@ -23,6 +23,10 @@ inputs:
     description: 'Composer self-update version'
     required: false
     default: ''
+  composer-lock:
+    description: 'Composer lock file'
+    required: false
+    default: 'true'
 runs:
   using: 'composite'
   steps:
@@ -41,6 +45,7 @@ runs:
         INPUT_GH_OAUTH_TOKEN: ${{ inputs.gh-oauth-token }}
         INPUT_COMPOSER_SELF_UPDATE: ${{ inputs.composer-self-update }}
         INPUT_COMPOSER_SELF_UPDATE_VERSION: ${{ inputs.composer-self-update-version }}
+        COMPOSER_LOCK: ${{ inputs.composer-lock }}
     - name: 'Notify commiter'
       if: always()
       uses: actions/github-script@v6.3.3

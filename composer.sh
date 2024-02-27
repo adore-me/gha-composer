@@ -4,15 +4,19 @@
 BL='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${BL}Info:${NC} Checking for lock file..."
-if [ ! -f "composer.lock" ]; then
-  errorMessage="composer.lock file not found! Please commit your composer.lock file to your repository."
-  echo "::error::$errorMessage"
-  echo "composer-error-message=$errorMessage" >> "$GITHUB_OUTPUT"
-  echo "composer-error=true" >> "$GITHUB_OUTPUT"
-  exit 1
+if [ "$COMPOSER_LOCK" == "true" ]; then
+  echo -e "${BL}Info:${NC} Checking for lock file..."
+  if [ ! -f "composer.lock" ]; then
+    errorMessage="composer.lock file not found! Please commit your composer.lock file to your repository."
+    echo "::error::$errorMessage"
+    echo "composer-error-message=$errorMessage" >> "$GITHUB_OUTPUT"
+    echo "composer-error=true" >> "$GITHUB_OUTPUT"
+    exit 1
+  else
+    echo -e "${BL}Info:${NC} Lock file found! All good..."
+  fi
 else
-  echo -e "${BL}Info:${NC} Lock file found! All good..."
+  echo -e "${BL}Info:${NC} Skipping composer.lock check..."
 fi
 
 echo -e "${BL}Info:${NC} Checking composer config..."
