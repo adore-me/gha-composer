@@ -42,6 +42,8 @@ if [ "$RUN_INSTALL" == "true" ]; then
   echo -e "${BL}Info:${NC} Running composer install.."
   echo -e "${BL}Info:${NC} running: $COMPOSER_COMMAND"
   docker exec php-container bash -c "$COMPOSER_COMMAND"
+else
+  echo -e "${BL}Info:${NC} Skipping composer install..."
 fi
 
 echo -e "${BL}Info:${NC} Checking composer config..."
