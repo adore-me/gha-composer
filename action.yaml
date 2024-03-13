@@ -26,7 +26,7 @@ inputs:
   run-install:
     description: 'Run composer install command'
     required: false
-    default: 'false'
+    default: 'true'
   check-lock:
     description: 'Check composer.lock file'
     required: false
