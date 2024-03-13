@@ -4,15 +4,46 @@
 BL='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${BL}Info:${NC} Checking for lock file..."
-if [ ! -f "composer.lock" ]; then
-  errorMessage="composer.lock file not found! Please commit your composer.lock file to your repository."
-  echo "::error::$errorMessage"
-  echo "composer-error-message=$errorMessage" >> "$GITHUB_OUTPUT"
-  echo "composer-error=true" >> "$GITHUB_OUTPUT"
-  exit 1
+if [ "$CHECK_LOCK" == "true" ]; then
+  echo -e "${BL}Info:${NC} Checking for lock file..."
+    if [ ! -f "composer.lock" ]; then
+      errorMessage="composer.lock file not found! Please commit your composer.lock file to your repository."
+      echo "::error::$errorMessage"
+      echo "composer-error-message=$errorMessage" >> "$GITHUB_OUTPUT"
+      echo "composer-error=true" >> "$GITHUB_OUTPUT"
+      exit 1
+    else
+      echo -e "${BL}Info:${NC} Lock file found! All good..."
+    fi
 else
-  echo -e "${BL}Info:${NC} Lock file found! All good..."
+  echo -e "${BL}Info:${NC} Skipping composer.lock check..."
+fi
+
+if [ "$RUN_INSTALL" == "true" ]; then
+  if [[ $INPUT_COMPOSER_SELF_UPDATE == "true" ]]; then
+    echo -e "${BL}Info:${NC} Updating composer..."
+    version=""
+    if [[ $INPUT_COMPOSER_SELF_UPDATE_VERSION != "" ]]; then
+      version="$INPUT_COMPOSER_SELF_UPDATE_VERSION"
+    fi
+
+    echo -e "${BL}Info:${NC} running: composer self-update ${version}"
+    docker exec php-container bash -c "composer self-update ${version}"
+  fi
+
+  COMPOSER_COMMAND="composer install --prefer-dist"
+  if [[ $INPUT_COMPOSER_NO_DEV == "true" ]]; then
+    COMPOSER_COMMAND=$COMPOSER_COMMAND" --no-dev"
+  fi
+
+  echo -e "${BL}Info:${NC} Configuring composer..."
+  docker exec php-container bash -c "composer config --global github-oauth.github.com $INPUT_GH_OAUTH_TOKEN"
+
+  echo -e "${BL}Info:${NC} Running composer install.."
+  echo -e "${BL}Info:${NC} running: $COMPOSER_COMMAND"
+  docker exec php-container bash -c "$COMPOSER_COMMAND"
+else
+  echo -e "${BL}Info:${NC} Skipping composer install..."
 fi
 
 echo -e "${BL}Info:${NC} Checking composer config..."
